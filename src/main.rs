@@ -33,6 +33,7 @@ fn main() {
             "supervised:breast-cancer",
             &supervised::breast_cancer as &dyn Fn(),
         ),
+        ("supervised:boston", &supervised::boston as &dyn Fn()),
     ]
     .into_iter()
     .collect();
