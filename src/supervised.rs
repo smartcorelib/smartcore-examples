@@ -34,25 +34,29 @@ pub fn breast_cancer() {
     let (x_train, x_test, y_train, y_test) = train_test_split(&x, &y, 0.2);
 
     // KNN classifier
-    let knn = KNNClassifier::fit(
+    let y_hat_knn = KNNClassifier::fit(
         &x_train,
         &y_train,
         Distances::euclidian(),
         Default::default(),
-    );
-    let y_hat_knn = knn.predict(&x_test);
+    )
+    .and_then(|knn| knn.predict(&x_test))
+    .unwrap();
 
     // Logistic Regression
-    let lr = LogisticRegression::fit(&x_train, &y_train);
-    let y_hat_lr = lr.predict(&x_test);
+    let y_hat_lr = LogisticRegression::fit(&x_train, &y_train)
+        .and_then(|lr| lr.predict(&x_test))
+        .unwrap();
 
     // Decision Tree
-    let tree = DecisionTreeClassifier::fit(&x_train, &y_train, Default::default());
-    let y_hat_tree = tree.predict(&x_test);
+    let y_hat_tree = DecisionTreeClassifier::fit(&x_train, &y_train, Default::default())
+        .and_then(|tree| tree.predict(&x_test))
+        .unwrap();
 
     // Random Forest
-    let rf = RandomForestClassifier::fit(&x_train, &y_train, Default::default());
-    let y_hat_rf = rf.predict(&x_test);
+    let y_hat_rf = RandomForestClassifier::fit(&x_train, &y_train, Default::default())
+        .and_then(|rf| rf.predict(&x_test))
+        .unwrap();
 
     // Calculate test error
     println!("AUC KNN: {}", roc_auc_score(&y_test, &y_hat_knn));
@@ -79,25 +83,29 @@ pub fn boston() {
     let (x_train, x_test, y_train, y_test) = train_test_split(&x, &y, 0.2);
 
     // Fit KNN regressor
-    let knn = KNNRegressor::fit(
+    let y_hat_knn = KNNRegressor::fit(
         &x_train,
         &y_train,
         Distances::euclidian(),
         Default::default(),
-    );
-    let y_hat_knn = knn.predict(&x_test);
+    )
+    .and_then(|knn| knn.predict(&x_test))
+    .unwrap();
 
     // Fit Linear Regression
-    let lr = LinearRegression::fit(&x_train, &y_train, Default::default());
-    let y_hat_lr = lr.predict(&x_test);
+    let y_hat_lr = LinearRegression::fit(&x_train, &y_train, Default::default())
+        .and_then(|lr| lr.predict(&x_test))
+        .unwrap();
 
     // Fit Decision Tree
-    let tree = DecisionTreeRegressor::fit(&x_train, &y_train, Default::default());
-    let y_hat_tree = tree.predict(&x_test);
+    let y_hat_tree = DecisionTreeRegressor::fit(&x_train, &y_train, Default::default())
+        .and_then(|tree| tree.predict(&x_test))
+        .unwrap();
 
     // Fit Random Forest
-    let rf = RandomForestRegressor::fit(&x_train, &y_train, Default::default());
-    let y_hat_rf = rf.predict(&x_test);
+    let y_hat_rf = RandomForestRegressor::fit(&x_train, &y_train, Default::default())
+        .and_then(|rf| rf.predict(&x_test))
+        .unwrap();
 
     // Calculate test error
     println!("MSE KNN: {}", mean_squared_error(&y_test, &y_hat_knn));

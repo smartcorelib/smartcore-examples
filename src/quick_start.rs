@@ -29,8 +29,10 @@ pub fn iris_knn_example() {
         &y,
         Distances::euclidian(), // We use euclidian distance here.
         Default::default(),
-    );
-    let y_hat = knn.predict(&x); // Predict class labels
+    )
+    .unwrap();
+
+    let y_hat = knn.predict(&x).unwrap(); // Predict class labels
 
     // Calculate training error
     println!("accuracy: {}", accuracy(&y, &y_hat)); // Prints 0.96
@@ -49,8 +51,8 @@ pub fn iris_lr_example() {
     let y = iris_data.target;
 
     // Fit Logistic Regression to Iris dataset
-    let lr = LogisticRegression::fit(&x, &y);
-    let y_hat = lr.predict(&x); // Predict class labels
+    let lr = LogisticRegression::fit(&x, &y).unwrap();
+    let y_hat = lr.predict(&x).unwrap(); // Predict class labels
 
     // Calculate training error
     println!("accuracy: {}", accuracy(&y, &y_hat)); // Prints 0.98
@@ -70,8 +72,8 @@ pub fn iris_lr_ndarray_example() {
     let y = Array::from_shape_vec(iris_data.num_samples, iris_data.target).unwrap();
 
     // Fit Logistic Regression to Iris dataset
-    let lr = LogisticRegression::fit(&x, &y);
-    let y_hat = lr.predict(&x); // Predict class labels
+    let lr = LogisticRegression::fit(&x, &y).unwrap();
+    let y_hat = lr.predict(&x).unwrap(); // Predict class labels
 
     // Calculate training error
     println!("accuracy: {}", accuracy(&y, &y_hat)); // Prints 0.98
