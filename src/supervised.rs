@@ -82,7 +82,7 @@ pub fn boston() {
 
     let (x_train, x_test, y_train, y_test) = train_test_split(&x, &y, 0.2);
 
-    // Fit KNN regressor
+    // KNN regressor
     let y_hat_knn = KNNRegressor::fit(
         &x_train,
         &y_train,
@@ -92,17 +92,17 @@ pub fn boston() {
     .and_then(|knn| knn.predict(&x_test))
     .unwrap();
 
-    // Fit Linear Regression
+    // Linear Regression
     let y_hat_lr = LinearRegression::fit(&x_train, &y_train, Default::default())
         .and_then(|lr| lr.predict(&x_test))
         .unwrap();
 
-    // Fit Decision Tree
+    // Decision Tree
     let y_hat_tree = DecisionTreeRegressor::fit(&x_train, &y_train, Default::default())
         .and_then(|tree| tree.predict(&x_test))
         .unwrap();
 
-    // Fit Random Forest
+    // Random Forest
     let y_hat_rf = RandomForestRegressor::fit(&x_train, &y_train, Default::default())
         .and_then(|rf| rf.predict(&x_test))
         .unwrap();

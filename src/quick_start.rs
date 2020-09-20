@@ -1,7 +1,7 @@
 use smartcore::dataset::iris::load_dataset;
 // DenseMatrix wrapper around Vec
 use smartcore::linalg::naive::dense_matrix::DenseMatrix;
-// ndarray wrapper
+// ndarray
 use ndarray::Array;
 // Imports for KNN classifier
 use smartcore::math::distance::Distances;
