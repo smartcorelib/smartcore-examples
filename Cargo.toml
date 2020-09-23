@@ -9,3 +9,4 @@ smartcore = { path = "../smartcore", features=["nalgebra-bindings", "ndarray-bin
 structopt = "0.3.17"
 ndarray = "0.13"
 nalgebra = "0.22.0"
+plotters = "^0.3.0"

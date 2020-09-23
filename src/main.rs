@@ -1,5 +1,6 @@
 pub mod quick_start;
 pub mod supervised;
+pub mod unsupervised;
 
 use std::collections::HashMap;
 use structopt::StructOpt;
@@ -34,6 +35,14 @@ fn main() {
             &supervised::breast_cancer as &dyn Fn(),
         ),
         ("supervised:boston", &supervised::boston as &dyn Fn()),
+        (
+            "unsupervised:digits_clusters",
+            &unsupervised::digits_clusters as &dyn Fn(),
+        ),
+        (
+            "unsupervised:digits_pca",
+            &unsupervised::digits_pca as &dyn Fn(),
+        ),
     ]
     .into_iter()
     .collect();
