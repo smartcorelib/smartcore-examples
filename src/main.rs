@@ -61,7 +61,9 @@ fn main() {
         }
         example if example == "list_examples" || example == "list" => {
             println!("You can run following examples:");
-            for c in all_examples.keys() {
+            let mut keys: Vec<&&str> = all_examples.keys().collect();
+            keys.sort();
+            for c in keys{
                 println!("\t{}", c);
             }
         }
