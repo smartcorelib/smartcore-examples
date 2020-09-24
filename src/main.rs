@@ -43,6 +43,10 @@ fn main() {
             "unsupervised:digits_pca",
             &unsupervised::digits_pca as &dyn Fn(),
         ),
+        (
+            "unsupervised:digits_svd",
+            &unsupervised::digits_svd as &dyn Fn(),
+        ),
     ]
     .into_iter()
     .collect();
