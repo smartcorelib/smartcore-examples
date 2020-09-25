@@ -1,3 +1,4 @@
+pub mod model_selection;
 pub mod quick_start;
 pub mod supervised;
 pub mod unsupervised;
@@ -47,6 +48,10 @@ fn main() {
             "unsupervised:digits_svd",
             &unsupervised::digits_svd as &dyn Fn(),
         ),
+        (
+            "model_selection:save_restore_knn",
+            &model_selection::save_restore_knn as &dyn Fn(),
+        ),
     ]
     .into_iter()
     .collect();
@@ -63,7 +68,7 @@ fn main() {
             println!("You can run following examples:");
             let mut keys: Vec<&&str> = all_examples.keys().collect();
             keys.sort();
-            for c in keys{
+            for c in keys {
                 println!("\t{}", c);
             }
         }
