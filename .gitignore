@@ -17,3 +17,7 @@ Cargo.lock
 
 # OS
 .DS_Store
+
+# Artifacts
+*.model
+digits_pca.svg
