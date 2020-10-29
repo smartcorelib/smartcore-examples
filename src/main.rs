@@ -1,3 +1,4 @@
+pub mod utils;
 pub mod model_selection;
 pub mod quick_start;
 pub mod supervised;
@@ -51,6 +52,10 @@ fn main() {
         (
             "model_selection:save_restore_knn",
             &model_selection::save_restore_knn as &dyn Fn(),
+        ),
+        (
+            "supervised:svm",
+            &supervised::svm as &dyn Fn(),
         ),
     ]
     .into_iter()

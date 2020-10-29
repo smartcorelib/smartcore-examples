@@ -13,7 +13,7 @@ keywords = ["machine-learning", "statistical", "ai", "optimization", "linear-alg
 categories = ["science"]
 
 [dependencies]
-smartcore = { version = "0.1.0", default-features = false, features=["nalgebra-bindings", "ndarray-bindings", "datasets"]}
+smartcore = { path = "../smartcore", default-features = false, features=["nalgebra-bindings", "ndarray-bindings", "datasets"]}
 structopt = "0.3.17"
 ndarray = "0.13"
 nalgebra = "0.22.0"
