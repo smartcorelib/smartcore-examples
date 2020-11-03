@@ -9,8 +9,8 @@ use smartcore::metrics::*;
 // SVD
 use smartcore::linalg::svd::SVDDecomposableMatrix;
 use smartcore::linalg::BaseMatrix;
-// plotters
-use plotters::prelude::*;
+
+use crate::utils;
 
 pub fn digits_clusters() {
     // Load dataset
@@ -52,7 +52,7 @@ pub fn digits_pca() {
     // Reduce dimensionality of X
     let x_transformed = pca.transform(&x).unwrap();
     // Plot transformed X to 2 principal components
-    scatterplot(&x_transformed, &labels, "digits_pca").unwrap();
+    utils::scatterplot(&x_transformed, &labels, "digits_pca").unwrap();
 }
 
 pub fn digits_svd() {
@@ -78,38 +78,4 @@ pub fn digits_svd() {
     for (x_i, x_hat_i) in x.iter().zip(x_hat.iter()) {
         assert!((x_i - x_hat_i).abs() < 1e-3)
     }
-}
-
-// We use Plotters library to draw scatter plot.
-// https://docs.rs/plotters/0.3.0/plotters/
-fn scatterplot(
-    data: &DenseMatrix<f32>,
-    labels: &Vec<f32>,
-    title: &str,
-) -> Result<(), Box<dyn std::error::Error>> {
-    let path = format!("{}.svg", title);
-    let root = SVGBackend::new(&path, (800, 600)).into_drawing_area();
-
-    root.fill(&WHITE)?;
-    let root = root.margin(10, 10, 10, 10);
-
-    let labels: Vec<usize> = labels.into_iter().map(|&v| v as usize).collect();
-    let data_values: Vec<f64> = data.iter().map(|v| v as f64).collect();
-
-    let mut scatter_ctx = ChartBuilder::on(&root)
-        .x_label_area_size(20)
-        .y_label_area_size(20)
-        .build_cartesian_2d(-40f64..40f64, -40f64..40f64)?;
-    scatter_ctx
-        .configure_mesh()
-        .disable_x_mesh()
-        .disable_y_mesh()
-        .draw()?;
-    scatter_ctx.draw_series(data_values.chunks(2).zip(labels.iter()).map(|(xy, &l)| {
-        EmptyElement::at((xy[0], xy[1]))
-            + Circle::new((0, 0), 3, ShapeStyle::from(&Palette99::pick(l)).filled())
-            + Text::new(format!("{}", l), (6, 0), ("sans-serif", 15.0).into_font())
-    }))?;
-
-    Ok(())
 }

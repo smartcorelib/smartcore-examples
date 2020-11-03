@@ -2,6 +2,7 @@ pub mod model_selection;
 pub mod quick_start;
 pub mod supervised;
 pub mod unsupervised;
+pub mod utils;
 
 use std::collections::HashMap;
 use structopt::StructOpt;
@@ -52,6 +53,7 @@ fn main() {
             "model_selection:save_restore_knn",
             &model_selection::save_restore_knn as &dyn Fn(),
         ),
+        ("supervised:svm", &supervised::svm as &dyn Fn()),
     ]
     .into_iter()
     .collect();
