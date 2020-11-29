@@ -33,6 +33,10 @@ fn main() {
             &quick_start::iris_lr_ndarray_example as &dyn Fn(),
         ),
         (
+            "quick-start:iris-lr-nalgebra",
+            &quick_start::iris_lr_nalgebra_example as &dyn Fn(),
+        ),
+        (
             "quick-start:iris-gaussiannb",
             &quick_start::iris_gaussiannb_example as &dyn Fn(),
         ),
