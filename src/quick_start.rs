@@ -3,6 +3,8 @@ use smartcore::dataset::iris::load_dataset;
 use smartcore::linalg::naive::dense_matrix::DenseMatrix;
 // ndarray
 use ndarray::Array;
+// nalgebra
+use nalgebra::{DMatrix, RowDVector};
 // Imports for KNN classifier
 use smartcore::math::distance::Distances;
 use smartcore::neighbors::knn_classifier::*;
@@ -72,6 +74,27 @@ pub fn iris_lr_ndarray_example() {
 
     // These are our target class labels
     let y = Array::from_shape_vec(iris_data.num_samples, iris_data.target).unwrap();
+
+    // Fit Logistic Regression to Iris dataset
+    let lr = LogisticRegression::fit(&x, &y).unwrap();
+    let y_hat = lr.predict(&x).unwrap(); // Predict class labels
+
+    // Calculate training error
+    println!("accuracy: {}", accuracy(&y, &y_hat)); // Prints 0.98
+}
+
+pub fn iris_lr_nalgebra_example() {
+    // Load Iris dataset
+    let iris_data = load_dataset();    
+    // Turn Iris dataset into NxM matrix
+    let x = DMatrix::from_row_slice(
+        iris_data.num_samples,
+        iris_data.num_features,
+        &iris_data.data,
+    );
+
+    // These are our target class labels
+    let y = RowDVector::from_iterator(iris_data.num_samples, iris_data.target.into_iter());
 
     // Fit Logistic Regression to Iris dataset
     let lr = LogisticRegression::fit(&x, &y).unwrap();
