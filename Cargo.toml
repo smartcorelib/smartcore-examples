@@ -15,8 +15,8 @@ categories = ["science"]
 [dependencies]
 smartcore = { path = "../smartcore", default-features = false, features=["nalgebra-bindings", "ndarray-bindings", "datasets"]}
 structopt = "0.3.17"
-ndarray = "0.13"
-nalgebra = "0.22.0"
+ndarray = "0.14"
+nalgebra = "0.23.0"
 plotters = "^0.3.0"
 serde = "1.0.115"
 bincode = "1.3.1"
