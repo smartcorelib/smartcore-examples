@@ -11,7 +11,7 @@ use smartcore::neighbors::knn_classifier::*;
 // Imports for Logistic Regression
 use smartcore::linear::logistic_regression::LogisticRegression;
 // Imports Gaussian Naive Bayes classifier
-use smartcore::naive_bayes::GaussianNB;
+use smartcore::naive_bayes::gaussian::GaussianNB;
 // Model performance
 use smartcore::metrics::accuracy;
 
