@@ -1,9 +1,9 @@
 use smartcore::dataset::iris::load_dataset;
 // DenseMatrix wrapper around Vec
 use smartcore::linalg::naive::dense_matrix::DenseMatrix;
-// ndarray
+// ndarray structs
 use ndarray::Array;
-// nalgebra
+// nalgebra structs
 use nalgebra::{DMatrix, RowDVector};
 // Imports for KNN classifier
 use smartcore::neighbors::knn_classifier::*;
