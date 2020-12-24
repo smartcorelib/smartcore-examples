@@ -52,7 +52,12 @@ pub fn digits_pca() {
     // Reduce dimensionality of X
     let x_transformed = pca.transform(&x).unwrap();
     // Plot transformed X to 2 principal components
-    utils::scatterplot(&x_transformed, &labels, "digits_pca").unwrap();
+    utils::scatterplot(
+        &x_transformed,
+        Some(&labels.into_iter().map(|f| f as usize).collect()),
+        "digits_pca",
+    )
+    .unwrap();
 }
 
 pub fn digits_svd() {

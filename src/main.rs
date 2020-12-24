@@ -61,6 +61,10 @@ fn main() {
             "model_selection:save_restore_knn",
             &model_selection::save_restore_knn as &dyn Fn(),
         ),
+        (
+            "model_selection:plot_cross_val_predict",
+            &model_selection::plot_cross_val_predict as &dyn Fn(),
+        ),
         ("supervised:svm", &supervised::svm as &dyn Fn()),
     ]
     .into_iter()
