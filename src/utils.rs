@@ -80,7 +80,7 @@ pub fn scatterplot_with_mesh(
 /// https://docs.rs/plotters/0.3.0/plotters/
 pub fn scatterplot(
     data: &DenseMatrix<f32>,
-    labels: &Vec<f32>,
+    labels: Option<&Vec<usize>>,
     title: &str,
 ) -> Result<(), Box<dyn std::error::Error>> {
     let path = format!("{}.svg", title);
@@ -92,9 +92,8 @@ pub fn scatterplot(
     let y_max = (max(data, 1) + 1.0) as f64;
 
     root.fill(&WHITE)?;
-    let root = root.margin(10, 10, 10, 10);
+    let root = root.margin(15, 15, 15, 15);
 
-    let labels: Vec<usize> = labels.into_iter().map(|&v| v as usize).collect();
     let data_values: Vec<f64> = data.iter().map(|v| v as f64).collect();
 
     let mut scatter_ctx = ChartBuilder::on(&root)
@@ -106,11 +105,21 @@ pub fn scatterplot(
         .disable_x_mesh()
         .disable_y_mesh()
         .draw()?;
-    scatter_ctx.draw_series(data_values.chunks(2).zip(labels.iter()).map(|(xy, &l)| {
-        EmptyElement::at((xy[0], xy[1]))
-            + Circle::new((0, 0), 3, ShapeStyle::from(&Palette99::pick(l)).filled())
-            + Text::new(format!("{}", l), (6, 0), ("sans-serif", 15.0).into_font())
-    }))?;
+    match labels {
+        Some(labels) => {
+            scatter_ctx.draw_series(data_values.chunks(2).zip(labels.iter()).map(|(xy, &l)| {
+                EmptyElement::at((xy[0], xy[1]))
+                    + Circle::new((0, 0), 3, ShapeStyle::from(&Palette99::pick(l)).filled())
+                    + Text::new(format!("{}", l), (6, 0), ("sans-serif", 15.0).into_font())
+            }))?;
+        }
+        None => {
+            scatter_ctx.draw_series(data_values.chunks(2).map(|xy| {
+                EmptyElement::at((xy[0], xy[1]))
+                    + Circle::new((0, 0), 3, ShapeStyle::from(&Palette99::pick(3)).filled())
+            }))?;
+        }
+    }
 
     Ok(())
 }

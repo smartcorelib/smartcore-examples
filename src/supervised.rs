@@ -2,12 +2,8 @@ use smartcore::dataset::*;
 // DenseMatrix wrapper around Vec
 use smartcore::linalg::naive::dense_matrix::DenseMatrix;
 // KNN
-use smartcore::algorithm::neighbour::KNNAlgorithmName;
-use smartcore::math::distance::Distances;
 use smartcore::neighbors::knn_classifier::KNNClassifier;
 use smartcore::neighbors::knn_regressor::KNNRegressor;
-use smartcore::neighbors::knn_regressor::KNNRegressorParameters;
-use smartcore::neighbors::KNNWeightFunction;
 // Logistic/Linear Regression
 use smartcore::linear::linear_regression::LinearRegression;
 use smartcore::linear::logistic_regression::LogisticRegression;
@@ -18,7 +14,7 @@ use smartcore::tree::decision_tree_regressor::DecisionTreeRegressor;
 use smartcore::ensemble::random_forest_classifier::RandomForestClassifier;
 use smartcore::ensemble::random_forest_regressor::RandomForestRegressor;
 // SVM
-use smartcore::svm::svc::SVC;
+use smartcore::svm::svc::{SVCParameters, SVC};
 use smartcore::svm::Kernels;
 // Model performance
 use smartcore::metrics::{mean_squared_error, roc_auc_score};
@@ -39,20 +35,15 @@ pub fn breast_cancer() {
     let y = cancer_data.target;
 
     // Split dataset into training/test (80%/20%)
-    let (x_train, x_test, y_train, y_test) = train_test_split(&x, &y, 0.2);
+    let (x_train, x_test, y_train, y_test) = train_test_split(&x, &y, 0.2, true);
 
     // KNN classifier
-    let y_hat_knn = KNNClassifier::fit(
-        &x_train,
-        &y_train,
-        Distances::euclidian(),
-        Default::default(),
-    )
-    .and_then(|knn| knn.predict(&x_test))
-    .unwrap();
+    let y_hat_knn = KNNClassifier::fit(&x_train, &y_train, Default::default())
+        .and_then(|knn| knn.predict(&x_test))
+        .unwrap();
 
     // Logistic Regression
-    let y_hat_lr = LogisticRegression::fit(&x_train, &y_train)
+    let y_hat_lr = LogisticRegression::fit(&x_train, &y_train, Default::default())
         .and_then(|lr| lr.predict(&x_test))
         .unwrap();
 
@@ -88,21 +79,12 @@ pub fn boston() {
     // These are our target class labels
     let y = cancer_data.target;
 
-    let (x_train, x_test, y_train, y_test) = train_test_split(&x, &y, 0.2);
+    let (x_train, x_test, y_train, y_test) = train_test_split(&x, &y, 0.2, true);
 
     // KNN regressor
-    let y_hat_knn = KNNRegressor::fit(
-        &x_train,
-        &y_train,
-        Distances::euclidian(),
-        KNNRegressorParameters {
-            algorithm: KNNAlgorithmName::CoverTree,
-            weight: KNNWeightFunction::Uniform,
-            k: 3,
-        },
-    )
-    .and_then(|knn| knn.predict(&x_test))
-    .unwrap();
+    let y_hat_knn = KNNRegressor::fit(&x_train, &y_train, Default::default())
+        .and_then(|knn| knn.predict(&x_test))
+        .unwrap();
 
     // Linear Regression
     let y_hat_lr = LinearRegression::fit(&x_train, &y_train, Default::default())
@@ -152,7 +134,7 @@ pub fn svm() {
     let mesh = utils::make_meshgrid(&x);
 
     // SVC with linear kernel
-    let linear_svc = SVC::fit(&x, &y, Kernels::linear(), Default::default()).unwrap();
+    let linear_svc = SVC::fit(&x, &y, Default::default()).unwrap();
 
     utils::scatterplot_with_mesh(
         &mesh,
@@ -164,7 +146,12 @@ pub fn svm() {
     .unwrap();
 
     // SVC with Gaussian kernel
-    let rbf_svc = SVC::fit(&x, &y, Kernels::rbf(0.7), Default::default()).unwrap();
+    let rbf_svc = SVC::fit(
+        &x,
+        &y,
+        SVCParameters::default().with_kernel(Kernels::rbf(0.7)),
+    )
+    .unwrap();
 
     utils::scatterplot_with_mesh(&mesh, &rbf_svc.predict(&mesh).unwrap(), &x, &y, "rbf_svm")
         .unwrap();
@@ -173,8 +160,7 @@ pub fn svm() {
     let poly_svc = SVC::fit(
         &x,
         &y,
-        Kernels::polynomial_with_degree(3.0, num_features),
-        Default::default(),
+        SVCParameters::default().with_kernel(Kernels::polynomial_with_degree(3.0, num_features)),
     )
     .unwrap();
 
