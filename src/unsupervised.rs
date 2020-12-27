@@ -2,9 +2,9 @@ use smartcore::dataset::*;
 // DenseMatrix wrapper around Vec
 use smartcore::linalg::naive::dense_matrix::DenseMatrix;
 // K-Means
-use smartcore::cluster::kmeans::KMeans;
+use smartcore::cluster::kmeans::{KMeans, KMeansParameters};
 // PCA
-use smartcore::decomposition::pca::PCA;
+use smartcore::decomposition::pca::{PCAParameters, PCA};
 use smartcore::metrics::*;
 // SVD
 use smartcore::linalg::svd::SVDDecomposableMatrix;
@@ -24,7 +24,7 @@ pub fn digits_clusters() {
     // These are our target class labels
     let true_labels = digits_data.target;
     // Fit & predict
-    let labels = KMeans::fit(&x, 10, Default::default())
+    let labels = KMeans::fit(&x, KMeansParameters::default().with_k(10))
         .and_then(|kmeans| kmeans.predict(&x))
         .unwrap();
     // Measure performance
@@ -48,7 +48,7 @@ pub fn digits_pca() {
     // These are our target class labels
     let labels = digits_data.target;
     // Fit PCA to digits dataset
-    let pca = PCA::fit(&x, 2, Default::default()).unwrap();
+    let pca = PCA::fit(&x, PCAParameters::default().with_n_components(2)).unwrap();
     // Reduce dimensionality of X
     let x_transformed = pca.transform(&x).unwrap();
     // Plot transformed X to 2 principal components
