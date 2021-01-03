@@ -20,4 +20,4 @@ Cargo.lock
 
 # Artifacts
 *.model
-digits_pca.svg
+*.svg
