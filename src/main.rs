@@ -44,6 +44,7 @@ fn main() {
             "supervised:breast-cancer",
             &supervised::breast_cancer as &dyn Fn(),
         ),
+        ("supervised:diabetes", &supervised::diabetes as &dyn Fn()),
         ("supervised:boston", &supervised::boston as &dyn Fn()),
         (
             "unsupervised:digits_clusters",
@@ -53,9 +54,14 @@ fn main() {
             "unsupervised:digits_pca",
             &unsupervised::digits_pca as &dyn Fn(),
         ),
+        ("unsupervised:circles", &unsupervised::circles as &dyn Fn()),
         (
-            "unsupervised:digits_svd",
-            &unsupervised::digits_svd as &dyn Fn(),
+            "unsupervised:digits_svd1",
+            &unsupervised::digits_svd1 as &dyn Fn(),
+        ),
+        (
+            "unsupervised:digits_svd2",
+            &unsupervised::digits_svd2 as &dyn Fn(),
         ),
         (
             "model_selection:save_restore_knn",
@@ -64,6 +70,10 @@ fn main() {
         (
             "model_selection:plot_cross_val_predict",
             &model_selection::plot_cross_val_predict as &dyn Fn(),
+        ),
+        (
+            "model_selection:lr_cross_validate",
+            &model_selection::lr_cross_validate as &dyn Fn(),
         ),
         ("supervised:svm", &supervised::svm as &dyn Fn()),
     ]

@@ -2,7 +2,7 @@
 name = "smartcore-examples"
 description = "Examples of code using machine learning models from SmartCore library"
 homepage = "https://smartcorelib.org"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["SmartCore Dvelopers"]
 edition = "2018"
 license = "Apache-2.0"
