@@ -1,3 +1,4 @@
+use smartcore::dataset::breast_cancer;
 use smartcore::dataset::diabetes;
 use smartcore::dataset::iris;
 use std::fs::File;
@@ -9,10 +10,12 @@ use smartcore::math::distance::*;
 use smartcore::neighbors::knn_classifier::*;
 // Linear regression
 use smartcore::linear::linear_regression::LinearRegression;
+// Logistic regression
+use smartcore::linear::logistic_regression::LogisticRegression;
 // Model performance
 use smartcore::metrics::accuracy;
 // K-fold CV
-use smartcore::model_selection::{cross_val_predict, KFold};
+use smartcore::model_selection::{cross_val_predict, cross_validate, KFold};
 
 use crate::utils;
 
@@ -51,6 +54,35 @@ pub fn save_restore_knn() {
     let y_hat = knn.predict(&x).unwrap(); // Predict class labels
                                           // Calculate training error
     println!("accuracy: {}", accuracy(&y, &y_hat)); // Prints 0.96
+}
+
+// This example is expired by
+// https://scikit-learn.org/stable/auto_examples/model_selection/plot_cv_predict.html
+pub fn lr_cross_validate() {
+    // Load dataset
+    let breast_cancer_data = breast_cancer::load_dataset();
+    let x = DenseMatrix::from_array(
+        breast_cancer_data.num_samples,
+        breast_cancer_data.num_features,
+        &breast_cancer_data.data,
+    );
+    // These are our target values
+    let y = breast_cancer_data.target;
+    // cross-validated estimator
+    let results = cross_validate(
+        LogisticRegression::fit,
+        &x,
+        &y,
+        Default::default(),
+        KFold::default().with_n_splits(3),
+        accuracy,
+    )
+    .unwrap();
+    println!(
+        "Test score: {}, training score: {}",
+        results.mean_test_score(),
+        results.mean_train_score()
+    );
 }
 
 // This example is expired by
