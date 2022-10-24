@@ -1,3 +1,8 @@
+# DEPRECATION
+
+This examples are for legacy version 0.21, please see the **notebooks in [smartcore-jupyter](https://github.com/smartcorelib/smartcore-jupyter) for current examples**.
+
+
 # SmartCore Examples
 
 Examples of code using machine learning models from [SmartCore](https://smartcorelib.org/) library.
