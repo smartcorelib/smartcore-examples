@@ -73,8 +73,8 @@ pub fn lr_cross_validate() {
         LogisticRegression::fit,
         &x,
         &y,
-        Default::default(),
-        KFold::default().with_n_splits(3),
+        &Default::default(),
+        &KFold::default().with_n_splits(3),
         accuracy,
     )
     .unwrap();

@@ -39,7 +39,7 @@ pub fn diabetes() {
     let y = diabetes_data.target;
 
     // Split dataset into training/test (80%/20%)
-    let (x_train, x_test, y_train, y_test) = train_test_split(&x, &y, 0.2, true);
+    let (x_train, x_test, y_train, y_test) = train_test_split(&x, &y, 0.2, true, None);
 
     // SVM
     let y_hat_svm = SVR::fit(
@@ -72,7 +72,7 @@ pub fn breast_cancer() {
     let y = cancer_data.target;
 
     // Split dataset into training/test (80%/20%)
-    let (x_train, x_test, y_train, y_test) = train_test_split(&x, &y, 0.2, true);
+    let (x_train, x_test, y_train, y_test) = train_test_split(&x, &y, 0.2, true, None);
 
     // KNN classifier
     let y_hat_knn = KNNClassifier::fit(&x_train, &y_train, Default::default())
@@ -122,7 +122,7 @@ pub fn boston() {
     // These are our target values
     let y = boston_data.target;
 
-    let (x_train, x_test, y_train, y_test) = train_test_split(&x, &y, 0.2, true);
+    let (x_train, x_test, y_train, y_test) = train_test_split(&x, &y, 0.2, true, None);
 
     // KNN regressor
     let y_hat_knn = KNNRegressor::fit(&x_train, &y_train, Default::default())
